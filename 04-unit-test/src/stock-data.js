@@ -148,4 +148,4 @@ YUI.add('stock-data', function(Y) {
 }(Y));
 
 
-}, '@VERSION@' ,{"requires":["base"]});
+}, '0.1.0' ,{"requires":["base"]});

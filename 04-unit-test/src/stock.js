@@ -7,14 +7,15 @@ YUI.add('stock', function(Y) {
 
     var CLASS_NAME = 'stock',
         CONTENT_BOX = 'contentBox',
+        EMPTY_ROW_TEMPLATE = '<tr class="no-stock"><td colspan="6">No Stock</td></tr>',
         ROW_TEMPLATE = (function () {
             return [
                 '<tr>',
-                    '<td>{manufacturer}</td>',
-                    '<td>{model}</td>',
-                    '<td>{year}</td>',
-                    '<td>{miles}</td>',
-                    '<td>{price}</td>',
+                    '<td class="manufacturer">{manufacturer}</td>',
+                    '<td class="model">{model}</td>',
+                    '<td class="year">{year}</td>',
+                    '<td class="miles">{miles}</td>',
+                    '<td class="price">{price}</td>',
                     '<td><button value="{index}" class="sold">Sold</button></td>',
                 '</tr>'
             ].join("\n");
@@ -71,9 +72,11 @@ YUI.add('stock', function(Y) {
 
 
         renderUI: function () {
-            var html = TEMPLATE ;
+            var html = TEMPLATE,
+                data = this.get('stockDataSource').getData();
+
             this.get(CONTENT_BOX).setHTML(html);
-            this._renderTableContents();
+            this._renderTableContents(data);
         },
 
         bindUI: function() {
@@ -84,17 +87,20 @@ YUI.add('stock', function(Y) {
 
         },
 
-        _renderTableContents: function() {
-            var data = this.get('stockDataSource').getData(),
-            tbodyNode = this.get(CONTENT_BOX).one('table tbody');
-            tbodyNode.get('childNodes').destroy(true);
-
-            Y.Array.each(data, function(item, index) {
-                this._addTableRow(item, index);
-            }, this);
+        _renderTableContents: function(data) {
+            var tbodyNode = this.get(CONTENT_BOX).one('table tbody');
+            tbodyNode.get('childNodes').remove();
+            if (data && data.length > 0) {
+                Y.Array.each(data, function(item, index) {
+                    this._addTableRow(item, index, ROW_TEMPLATE);
+                }, this);
+            } else {
+                rowNode = Y.Node.create(EMPTY_ROW_TEMPLATE);
+                tbodyNode.appendChild(rowNode);
+            }
         },
 
-        _addTableRow: function(bike, index) {
+        _addTableRow: function(bike, index, template) {
             var html = ROW_TEMPLATE,
             tbodyNode = this.get(CONTENT_BOX).one('table tbody'),
             rowNode;
@@ -106,10 +112,11 @@ YUI.add('stock', function(Y) {
         },
 
         _soldClickHandler: function(e) {
-            var index = parseInt(e.currentTarget.get('value'), 10);
+            var index = parseInt(e.currentTarget.get('value'), 10),
+            data, tableNode, rowNode;
             try {
-                this.get('stockDataSource').remove(index);
-                e.currentTarget.ancestors('tr').remove();
+                data = this.get('stockDataSource').remove(index);
+                this._renderTableContents(data);
             } catch(ex) {
                 //show error message
                 alert(ex);
@@ -119,7 +126,7 @@ YUI.add('stock', function(Y) {
         _addClickHandler: function() {
             var stockDataSource = this.get('stockDataSource'),
                 contentBox = this.get(CONTENT_BOX),
-                newIndex,
+                data;
                 bike = {
                     manufacturer: contentBox.one('input#manufacturer').get('value'),
                     model: contentBox.one('input#model').get('value'),
@@ -129,8 +136,8 @@ YUI.add('stock', function(Y) {
                 };
 
             try {
-                newIndex = stockDataSource.add(bike).length;
-                this._addTableRow(bike, newIndex);
+                data = stockDataSource.add(bike);
+                this._renderTableContents(data);
                 contentBox.one('input#manufacturer').set('value', '');
                 contentBox.one('input#model').set('value', '');
                 contentBox.one('input#year').set('value', '');
@@ -147,4 +154,4 @@ YUI.add('stock', function(Y) {
 }(Y));
 
 
-}, '@VERSION@', {"requires":["widget", "node", "oop"]});
+}, '0.1.0', {"requires":["widget", "node", "oop"]});
