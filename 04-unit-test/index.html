@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stock</title>
+</head>
+
+<body class="yui3-skin-sam yui-skin-sam">
+  <h1>Current Stock</h1>
+  <div id="stock"></div>
+  
+  <h2>Unit Tests</h2>
+  <ul>
+    <li><a href="test-answers/stock/index.html">Stock Tests</a></li>
+    <li><a href="test-answers/stock-data/index.html">Stock Data Tests</a></li>
+  </ul>
+</body>
+<script src="http://yui.yahooapis.com/3.18.1/build/yui/yui-min.js"></script>
+<script type="text/javascript" src="src/stock.js"></script>
+<script type="text/javascript" src="src/stock-data.js"></script>
+<script type="text/javascript">
+YUI().use('stock', 'stock-data', function (Y) {
+  var stockData = new Y.StockData(),
+  stock = new Y.Stock({ stockDataSource: stockData });
+
+  stock.render('#stock');
+});
+
+</script>
+
+</html>

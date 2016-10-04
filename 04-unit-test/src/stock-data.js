@@ -89,18 +89,18 @@ YUI.add('stock-data', function(Y) {
         remove: function(index) {
             var data = this.get('data');
             if (!Y.Lang.isNumber(index)) {
-                throw "Bad Argument (stock-data.remove): index is not a number";
+                throw new Error("Bad Argument (stock-data.remove): index is not a number");
             }
 
             if (index < 0) {
-                throw "Bad Argument (stock-data.remove): index is a negative number";
+                throw new Error("Bad Argument (stock-data.remove): index is a negative number");
             }
 
             if (index >= data.length) {
-                throw "Bad Argument (stock-data.remove): index is a higher than the data length";
+                throw new Error("Bad Argument (stock-data.remove): index is a higher than the data length");
             }
 
-            data = data.splice(index, 1);
+            data.splice(index, 1);
             this.set('data', data);
 
             return data;

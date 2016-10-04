@@ -4,7 +4,7 @@ YUI({useBrowserConsole: true}).use('test', 'console', 'stock', 'node-event-simul
 
     var componentName = 'Stock',
         suite = new Y.Test.Suite(componentName + " Tests"),
-        Assert = Y.Assert,
+        Assert = Assert,
         stockWidget = null,
         mockDataSource = null;
     // ... tests happen
@@ -46,7 +46,7 @@ YUI({useBrowserConsole: true}).use('test', 'console', 'stock', 'node-event-simul
             stockWidget.render(Y.Node.one('#stock'));
 
             //check the no stock message
-            Y.Assert.isNotNull(Y.Node.one('tr.no-stock'));
+            Assert.isNotNull(Y.Node.one('tr.no-stock'));
             //verify the expectations were met
             Y.Mock.verify(mockDataSource);
         },
@@ -74,11 +74,11 @@ YUI({useBrowserConsole: true}).use('test', 'console', 'stock', 'node-event-simul
             firstRowNode = Y.Node.one('tbody tr:first-child')
 
             //check the rendering
-            Y.Assert.areEqual("Suzuki", firstRowNode.one('.manufacturer').get('text'));
-            Y.Assert.areEqual("DL650", firstRowNode.one('.model').get('text'));
-            Y.Assert.areEqual(2013, firstRowNode.one('.year').get('text'));
-            Y.Assert.areEqual(4750.00, firstRowNode.one('.price').get('text'));
-            Y.Assert.areEqual(12200, firstRowNode.one('.miles').get('text'));
+            Assert.areEqual("Suzuki", firstRowNode.one('.manufacturer').get('text'));
+            Assert.areEqual("DL650", firstRowNode.one('.model').get('text'));
+            Assert.areEqual(2013, firstRowNode.one('.year').get('text'));
+            Assert.areEqual(4750.00, firstRowNode.one('.price').get('text'));
+            Assert.areEqual(12200, firstRowNode.one('.miles').get('text'));
 
             //verify the expectations were met
             Y.Mock.verify(mockDataSource);
@@ -115,7 +115,7 @@ YUI({useBrowserConsole: true}).use('test', 'console', 'stock', 'node-event-simul
             soldButton.simulate("click");
 
             //check the no stock message
-            Y.Assert.isNotNull(Y.Node.one('tr.no-stock'));
+            Assert.isNotNull(Y.Node.one('tr.no-stock'));
 
             //verify the expectations were met
             Y.Mock.verify(mockDataSource);
@@ -162,11 +162,11 @@ YUI({useBrowserConsole: true}).use('test', 'console', 'stock', 'node-event-simul
             firstRowNode = Y.Node.one('tbody tr:first-child')
 
             //check the rendering
-            Y.Assert.areEqual("Suzuki", firstRowNode.one('.manufacturer').get('text'));
-            Y.Assert.areEqual("DL650", firstRowNode.one('.model').get('text'));
-            Y.Assert.areEqual(2013, firstRowNode.one('.year').get('text'));
-            Y.Assert.areEqual(4750.00, firstRowNode.one('.price').get('text'));
-            Y.Assert.areEqual(12200, firstRowNode.one('.miles').get('text'));
+            Assert.areEqual("Suzuki", firstRowNode.one('.manufacturer').get('text'));
+            Assert.areEqual("DL650", firstRowNode.one('.model').get('text'));
+            Assert.areEqual(2013, firstRowNode.one('.year').get('text'));
+            Assert.areEqual(4750.00, firstRowNode.one('.price').get('text'));
+            Assert.areEqual(12200, firstRowNode.one('.miles').get('text'));
 
             //verify the expectations were met
             Y.Mock.verify(mockDataSource);
