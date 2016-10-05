@@ -4,7 +4,7 @@ YUI({useBrowserConsole: true}).use('test', 'console', 'stock', 'node-event-simul
 
     var componentName = 'Stock',
         suite = new Y.Test.Suite(componentName + " Tests"),
-        Assert = Assert,
+        Assert = Y.Assert,
         stockWidget = null,
         mockDataSource = null;
     // ... tests happen
